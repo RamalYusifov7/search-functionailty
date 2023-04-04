@@ -22,24 +22,29 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setSearchedData(
-      data.filter((item) =>
-        item.email.toLowerCase().includes(search.toLowerCase())
-      )
-    );
-  }, [search]);
+    if (search) {
+      setSearchedData(
+        data.filter((item) =>
+          item.email.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    } else {
+      setSearchedData([]);
+    }
+  }, [data, search]);
+  
 
   const handleSearch = (event) => {
     setSearch(event.target.value.toLowerCase());
   };
-
+  console.log(searchedData);
   return (
     <>
       <Box sx={{ position: "relative", zIndex: 2 }}>
         <input style={{ display: "block", marginBottom: "150px", width: "100%" }} type="text" value={search} onChange={handleSearch} />
         {
           searchedData.length > 0 && (
-            <Box sx={{ background: "white",maxHeight: "100px",overflow:"auto" ,color: "black", position: "absolute", top: "50px" ,left:0,right:0}}>
+            <Box sx={{ background: "white", maxHeight: "100px", overflow: "auto", color: "black", position: "absolute", top: "50px", left: 0, right: 0 }}>
               {
                 searchedData.map(item => <p>{item.name}</p>)
               }
